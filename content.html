@@ -8,26 +8,45 @@
 	文章名字：<input type="text" id="tit"><br />
 	文章内容：<input type="text" id="con"><bt />
 	<button id="btn">发布</button>
-<div id="t"></div>
-<div id="c"></div>
+<div id="box"></div>
 
 
 	<script type="text/javascript">
 
-	btn.onclick = function(){
-		ajax({
+	ajax({
 		url:'http://localhost:8005',
-		type:'get',
-		data:{
-			user:tit.value,
-			pass:con.value
-		},
+		type:'post',
 		success:function(data){
-			var neirong=JSON.parse(data)
-				t.innerHTML='标题'+neirong.user
-				c.innerHTML='内容'+neirong.pass
+			var json1=JSON.parse(data);
+			var str="";
+			for(i in json1){
+				str+="<div>作者名:"+i+"</div><P>内容:"+json1[i]+"</P>"
+			}
+			box.innerHTML=str;
 		},
 		error:function(){
+			
+		}
+	})
+	
+		btn.onclick = function (){
+		ajax({
+		url:'http://localhost:8005',
+		type:'post',
+		data:{
+			qq:qq.value,
+			con:con.value
+		},
+		success:function(data){
+			var json1=JSON.parse(data);
+			var str="";
+			for(i in json1){
+				str+="<div>作者名:"+i+"</div><P>内容:"+json1[i]+"</P>"
+			}
+			box.innerHTML=str;
+		},
+		error:function(){
+			
 		}
 	})
 	}

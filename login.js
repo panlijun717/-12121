@@ -69,10 +69,28 @@ var http = require('http'),
  	}).listen(8004);
 
 http.createServer(function(req,res){
-		res.setHeader('Access-Control-Allow-Origin','*');
-		var str=url.parse(req.url,true).query;
-		fs.writeFile('data.txt',JSON.stringify(str),function(err){
-			res.write(str.con)
-			res.end();
-		})
-	}).listen(8005)
+ 		res.setHeader('Access-Control-Allow-Origin','*');
+ 			//获取前台传过来的参数
+ 			var str = '';
+ 			req.on('data',function(date){
+ 			str += date
+ 			})
+ 			req.on('end',function(err){
+ 				if(err) throw err;
+ 			var json = querystring.parse(str);
+ 			//读取Txt文本
+ 			 fs.readFile('./nr.txt','utf8',function(err,data){
+ 			if(err) throw err;
+ 		// 	//把文本里读取到的{}转成对象
+ 			var json1 = JSON.parse(data);
+ 			//end
+ 					json1[json.qq] = json.con;
+ 					fs.writeFile('nr.txt',JSON.stringify(json1),function(err){
+ 						if(err) throw err;
+ 						res.write(JSON.stringify(json1))
+ 						res.end();
+ 					})
+ 			})
+ 			
+ 		})
+ 	}).listen(8005)
