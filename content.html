@@ -5,13 +5,34 @@
 	<title>Document</title>
 </head>
 <body>
-	文章名字：<input type="text" id="name"><br />
+	文章名字：<input type="text" id="tit"><br />
 	文章内容：<input type="text" id="con"><bt />
 	<button id="btn">发布</button>
-
+<div id="t"></div>
+<div id="c"></div>
 
 
 	<script type="text/javascript">
+
+	btn.onclick = function(){
+		ajax({
+		url:'http://localhost:8005',
+		type:'get',
+		data:{
+			user:tit.value,
+			pass:con.value
+		},
+		success:function(data){
+			var neirong=JSON.parse(data)
+				t.innerHTML='标题'+neirong.user
+				c.innerHTML='内容'+neirong.pass
+		},
+		error:function(){
+		}
+	})
+	}
+
+
 
 function ajax (option){
 	var xhr = new XMLHttpRequest();

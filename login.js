@@ -14,12 +14,10 @@ var http = require('http'),
 
  				if(err) throw err;
  			var json = querystring.parse(str);
- 			//读取Txt文本
  			 fs.readFile('./zc.txt','utf8',function(err,data){
 
  			if(err) throw err;
 
- 		// 	//把文本里读取到的{}转成对象
  			var json1 = JSON.parse(data);
  			//end
  				if(json1[json.user]){
@@ -69,3 +67,12 @@ var http = require('http'),
  			})
   
  	}).listen(8004);
+
+http.createServer(function(req,res){
+		res.setHeader('Access-Control-Allow-Origin','*');
+		var str=url.parse(req.url,true).query;
+		fs.writeFile('data.txt',JSON.stringify(str),function(err){
+			res.write(str.con)
+			res.end();
+		})
+	}).listen(8005)
